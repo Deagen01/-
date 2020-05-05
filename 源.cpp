@@ -51,7 +51,7 @@ DWORD WINAPI philosopher(LPVOID no) {
         //思考
         //休息
 
-        //方法2分配筷子前判断是否发生死锁
+        //方法二分配筷子前判断是否发生死锁
         //while (1) {
         //    if (check(i, i) == 0){
         //        break;
@@ -96,7 +96,7 @@ DWORD WINAPI philosopher(LPVOID no) {
         WaitForSingleObject(chopsticks[(i + 4) % 5], INFINITE);
         pickch(i,(i + 4) % 5);
 
-        //方法二
+        //方法一
         WaitForSingleObject(sem, INFINITE);
         flag = 0;
         if (judge() == 1) {
