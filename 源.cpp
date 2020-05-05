@@ -45,22 +45,22 @@ DWORD WINAPI philosopher(LPVOID no) {
     //OpenMutex(NULL,false,"c0");
     int flag;
     int i = (int)no;
-    printf("哲学家%d诞生\n", i);
+    printf("%d号哲学家入座\n", i);
     while (1) {
         Sleep(30);
         //思考
         //休息
 
         //方法2分配筷子前判断是否发生死锁
-        while (1) {
-            if (check(i, i) == 0){
-                break;
-            }
-            else {
-                Sleep(300);
-            }
-                
-        }
+        //while (1) {
+        //    if (check(i, i) == 0){
+        //        break;
+        //    }
+        //    else {
+        //        Sleep(300);
+        //    }
+        //        
+        //}
             
 
         WaitForSingleObject(chopsticks[i], INFINITE);
@@ -68,46 +68,47 @@ DWORD WINAPI philosopher(LPVOID no) {
 
         //方法一 发生死锁 破坏环路
         
-        //WaitForSingleObject(sem, INFINITE);
-        //flag = 0;
-        //if (judge() == 1) {
-        //    breakCircle(i, i,1);
-        //    flag = 1;
-        //}
-        //ReleaseSemaphore(sem, 1, NULL);
-        ////Sleep(50);
-        //if (flag == 1) {
-        //    //Sleep(30);
-        //    continue;
-        //}
+        WaitForSingleObject(sem, INFINITE);
+        flag = 0;
+        if (judge() == 1) {
+            breakCircle(i, i,1);
+            flag = 1;
+        }
+        ReleaseSemaphore(sem, 1, NULL);
+        //Sleep(50);
+        if (flag == 1) {
+            Sleep(500);
+            //Sleep(30);
+            continue;
+        }
             
         Sleep(500);
         
 
         //方法二
-        while (1) {
-            if (check(i, (i+4)%5) == 0)
-                break;
-            else
-                Sleep(300);
-        }
+        //while (1) {
+        //    if (check(i, (i+4)%5) == 0)
+        //        break;
+        //    else
+        //        Sleep(300);
+        //}
        
         WaitForSingleObject(chopsticks[(i + 4) % 5], INFINITE);
         pickch(i,(i + 4) % 5);
 
         //方法二
-        //WaitForSingleObject(sem, INFINITE);
-        //flag = 0;
-        //if (judge() == 1) {
-        //    breakCircle(i, i,2);
-        //    flag = 1;
-        //}
-        //ReleaseSemaphore(sem, 1, NULL);
-        //Sleep(50);
-        //if (flag == 1) {
-        //    //Sleep(500);
-        //    continue;
-        //}
+        WaitForSingleObject(sem, INFINITE);
+        flag = 0;
+        if (judge() == 1) {
+            breakCircle(i, i,2);
+            flag = 1;
+        }
+        ReleaseSemaphore(sem, 1, NULL);
+        Sleep(50);
+        if (flag == 1) {
+            Sleep(500);
+            continue;
+        }
             
 
         printf("%d号哲学家开始吃饭\n", i);
